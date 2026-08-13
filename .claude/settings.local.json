@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs grep *)",
+      "Bash(dir /s \"e:\\\\A老分盘\\\\文档文件F\\\\临时文档（2024.3.1）\\\\学习\\\\毕设\\\\bi-sheforum_ai\" *.xml)",
+      "Bash(findstr mybatis *)",
+      "Bash(mvn clean *)",
+      "Bash(java -cp \"forum/target/classes;forum/src/main/resources\" org.springframework.boot.loader.JarLauncher)",
+      "Bash(java *)",
+      "Bash(javac -cp \"target/classes;src/main/resources\" src/main/java/com/henry/forum/admin/ForumApplication.java)"
+    ]
+  }
+}

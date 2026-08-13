@@ -1,0 +1,11 @@
+[警告] LLM_API_KEY 未设置环境变量，使用代码中硬编码的默认Key
+[Embedding] 初始化引擎 (后端: ollama, 模型: nomic-embed-text)
+[Embedding] Ollama 已就绪，可用嵌入模型: ['nomic-embed-text:latest']
+[Embedding] ChromaDB 已就绪
+           帖子内容集合: 24 条
+           帖子标题集合: 20 条
+[Intent] Ollama 模型 'deepseek-r1:1.5b' 已就绪
+[Cache] Redis 连接失败: Error 10061 connecting to localhost:6379. 由于目标计算机积极拒绝，无法连接。.
+[Cache] 使用内存缓存作为兜底
+ * Serving Flask app 'bot'
+ * Debug mode: off

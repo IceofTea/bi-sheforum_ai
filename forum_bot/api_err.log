@@ -1,0 +1,65 @@
+2026-08-12 07:56:42,390 [INFO] ForumBot ==================================================
+2026-08-12 07:56:42,392 [INFO] ForumBot 论坛智能问答机器人 初始化中...
+2026-08-12 07:56:42,393 [INFO] ForumBot ==================================================
+2026-08-12 07:57:37,282 [INFO] ForumBot Bot用户: 校园小助手, ID: 32
+2026-08-12 07:57:37,301 [INFO] ForumBot 已回复帖子数: 1
+2026-08-12 07:57:37,303 [INFO] ForumBot ==================================================
+2026-08-12 07:57:37,304 [INFO] ForumBot 机器人初始化完成
+2026-08-12 07:57:37,304 [INFO] ForumBot  Bot用户: 校园小助手 (ID: 32)
+2026-08-12 07:57:37,305 [INFO] ForumBot  已回复: 1 条
+2026-08-12 07:57:37,306 [INFO] ForumBot  缓存: 内存
+2026-08-12 07:57:37,307 [INFO] ForumBot ==================================================
+2026-08-12 07:57:37,318 [INFO] ForumBot API 服务启动在 0.0.0.0:5000
+2026-08-12 07:57:37,351 [INFO] werkzeug [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.100:5000
+2026-08-12 07:57:37,352 [INFO] werkzeug [33mPress CTRL+C to quit[0m
+2026-08-12 08:01:12,586 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:01:12] "[36mGET / HTTP/1.1[0m" 304 -
+2026-08-12 08:01:13,682 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:01:13] "GET /api/bot/hot HTTP/1.1" 200 -
+2026-08-12 08:01:23,536 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:01:23] "POST /api/bot/ask/agent/stream HTTP/1.1" 200 -
+2026-08-12 08:03:02,438 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:03:02] "POST /api/bot/ask/agent/stream HTTP/1.1" 200 -
+2026-08-12 08:04:55,669 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:04:55] "POST /api/bot/ask/agent/stream HTTP/1.1" 200 -
+2026-08-12 08:05:11,505 [INFO] ForumBot [预热] 缓存预热完成，已缓存 ? 条
+2026-08-12 08:07:10,690 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:07:10] "[36mGET / HTTP/1.1[0m" 304 -
+2026-08-12 08:07:10,996 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:07:10] "GET /api/bot/hot HTTP/1.1" 200 -
+2026-08-12 08:08:42,741 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:08:42] "[36mGET / HTTP/1.1[0m" 304 -
+2026-08-12 08:08:43,005 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:08:43] "GET /api/bot/hot HTTP/1.1" 200 -
+2026-08-12 08:09:01,252 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:09:01] "POST /api/bot/ask/agent/stream HTTP/1.1" 200 -
+2026-08-12 08:10:10,005 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:10:10] "[36mGET / HTTP/1.1[0m" 304 -
+2026-08-12 08:10:10,331 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:10:10] "GET /api/bot/hot HTTP/1.1" 200 -
+2026-08-12 08:10:11,144 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:10:11] "POST /api/bot/ask/agent/stream HTTP/1.1" 200 -
+2026-08-12 08:10:13,832 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:10:13] "POST /api/bot/ask/agent/stream HTTP/1.1" 200 -
+2026-08-12 08:10:24,337 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:10:24] "[36mGET / HTTP/1.1[0m" 304 -
+2026-08-12 08:10:25,278 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:10:25] "GET /api/bot/hot HTTP/1.1" 200 -
+2026-08-12 08:11:08,719 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:11:08] "POST /api/bot/ask/agent/stream HTTP/1.1" 200 -
+2026-08-12 08:12:30,959 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:12:30] "POST /api/bot/emotion HTTP/1.1" 200 -
+2026-08-12 08:12:31,221 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:12:31] "POST /api/bot/emotion HTTP/1.1" 200 -
+2026-08-12 08:12:31,268 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:12:31] "POST /api/bot/emotion HTTP/1.1" 200 -
+2026-08-12 08:12:31,534 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:12:31] "POST /api/bot/emotion HTTP/1.1" 200 -
+2026-08-12 08:12:58,102 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:12:58] "POST /api/bot/ask/agent/stream HTTP/1.1" 200 -
+2026-08-12 08:14:46,319 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:14:46] "POST /api/bot/ask/analytics HTTP/1.1" 200 -
+2026-08-12 08:14:51,264 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:14:51] "POST /api/bot/moderation HTTP/1.1" 200 -
+2026-08-12 08:14:55,690 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:14:55] "POST /api/bot/moderation HTTP/1.1" 200 -
+2026-08-12 08:18:08,966 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:18:08] "[36mGET / HTTP/1.1[0m" 304 -
+2026-08-12 08:18:09,405 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:18:09] "GET /api/bot/hot HTTP/1.1" 200 -
+2026-08-12 08:18:13,200 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:18:13] "POST /api/bot/ask/agent/stream HTTP/1.1" 200 -
+2026-08-12 08:18:34,719 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:18:34] "[36mGET / HTTP/1.1[0m" 304 -
+2026-08-12 08:18:34,976 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:18:34] "GET /api/bot/hot HTTP/1.1" 200 -
+2026-08-12 08:19:07,318 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:19:07] "POST /api/bot/ask/agent/stream HTTP/1.1" 200 -
+2026-08-12 08:20:26,679 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:20:26] "POST /api/bot/ask/agent/stream HTTP/1.1" 200 -
+2026-08-12 08:20:53,749 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:20:53] "POST /api/bot/emotion HTTP/1.1" 200 -
+2026-08-12 08:20:54,068 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:20:54] "POST /api/bot/emotion HTTP/1.1" 200 -
+2026-08-12 08:20:54,318 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:20:54] "POST /api/bot/emotion HTTP/1.1" 200 -
+2026-08-12 08:20:54,379 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:20:54] "POST /api/bot/emotion HTTP/1.1" 200 -
+2026-08-12 08:22:08,224 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:22:08] "POST /api/bot/moderation HTTP/1.1" 200 -
+2026-08-12 08:22:13,393 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:22:13] "POST /api/bot/ask/analytics HTTP/1.1" 200 -
+2026-08-12 08:24:52,285 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:24:52] "[36mGET / HTTP/1.1[0m" 304 -
+2026-08-12 08:24:52,637 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:24:52] "GET /api/bot/hot HTTP/1.1" 200 -
+2026-08-12 08:25:11,869 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:25:11] "POST /api/bot/ask/agent/stream HTTP/1.1" 200 -
+2026-08-12 08:26:28,219 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:26:28] "POST /api/bot/moderation HTTP/1.1" 200 -
+2026-08-12 08:27:17,947 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:27:17] "POST /api/bot/emotion HTTP/1.1" 200 -
+2026-08-12 08:27:18,263 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:27:18] "POST /api/bot/emotion HTTP/1.1" 200 -
+2026-08-12 08:27:18,528 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:27:18] "POST /api/bot/emotion HTTP/1.1" 200 -
+2026-08-12 08:27:18,574 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:27:18] "POST /api/bot/emotion HTTP/1.1" 200 -
+2026-08-12 08:28:30,429 [INFO] werkzeug 127.0.0.1 - - [12/Aug/2026 08:28:30] "POST /api/bot/ask/analytics HTTP/1.1" 200 -
