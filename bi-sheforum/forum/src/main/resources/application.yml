@@ -1,0 +1,32 @@
+# 端口号
+server:
+  port: 4477
+  
+#配置pagehelper的内容
+pagehelper:
+    helper-dialect: mysql
+# 应用名
+spring:
+  application:
+    name: forum
+
+# 数据库
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/forum
+    username: root
+    password: 3185
+# 文件上传的配置
+  servlet:
+    multipart:
+      location: C:\upload\
+      max-file-size: 100MB
+        
+# mybatis的日志打印
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+logging:
+  level:
+    root: warn
+    com.henry.forum: warn

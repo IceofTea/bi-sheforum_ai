@@ -1,0 +1,153 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    font-family: "Roboto", sans-serif;
+}
+
+html,body,#page{
+	height: 100%;
+	width: 100%;
+}
+pre{
+	height: 100%;
+	width: 100%;
+}
+body{
+	overflow:hidden;
+}
+/* #tt{
+	overflow-y:auto;
+} */
+::-webkit-Scrollbar{
+	width:10px;
+	height:10px;
+}
+::-webkit-Scrollbar-thumb{
+	border-radius:5px;
+	-webkit-box-shadow:inset 0 0 5px rgba(0,0,0,0.2);
+	background:rgba(255,255,255,0.2);
+}
+::-webkit-Scrollbar-track{
+	-webkit-box-shadow:inset 0 0 5px rgba(0,0,0,0.2);
+	border-radius:0;
+	background:rgba(255,255,255,0.1);
+}
+
+.sidebar {
+    position: fixed;
+    left: -250px;
+    width: 250px;
+    height: 100vh;
+    background-color: #042331;
+    transition: all 0.5s ease;
+    /* //ease 开始和结束慢，中间快 */
+}
+
+.sidebar header {
+    color: white;
+    text-align: center;
+    line-height: 45px;
+    font-size: 22px;
+    background: #0d547633;
+    user-select: none;
+    /* //用户不能选取 */
+}
+
+.sidebar ul a {
+    display: block;
+    padding-left: 20px;
+    line-height: 34px;
+    border-top: 1px solid rgba(255, 255, 255, .1);
+    border-bottom: 1px solid #a5a5a5;
+    color: white;
+    transition: 0.3s linear;
+}
+.sidebar ul{/*leftNav*/
+	overflow-y:auto;
+	height:90%;
+	scroll-behavior: smooth;
+}
+.sidebar ul i {
+    padding-right: 16px;
+}
+
+.sidebar ul a:hover {
+    padding-left: 10px;
+}
+
+#check {
+    display: none;
+}
+
+label #btn,
+label #cancel {
+    position: absolute;
+    cursor: pointer;
+    background-color: #3aa327;
+    border-radius: 3px;
+}
+
+label #btn {
+    left: 0px;
+    top: 25px;
+    color: black;
+    font-size: 18px;
+    padding: 3px 9px;
+    transition: 0.3s;
+	z-index:1;
+}
+
+label #cancel {
+    z-index: 999;
+    left: -197px;
+    top: 29px;
+    font-size: 30px;
+    color: #0a5275;
+    padding: 4px 9px;
+    transition: 0.3s;
+}
+
+#check:checked~.sidebar {
+    left: 0px;
+}
+
+.showtext{
+	
+	position: absolute;
+	height: 94%;
+	width: 98%;
+	padding: 22px;
+	left:0px;
+	transition: all 0.5s ease;
+}
+#check:checked~.showtext {
+    left: 250px;
+	width: calc(98% - 250px);
+}
+
+#check:checked~label #btn {
+    left: 250px;
+    opacity: 0;
+}
+
+#check:checked~label #cancel {
+    left: 208px;
+}
+
+section {
+    background: url(./bg.png) no-repeat;
+    background-position: center;
+    /* 定位背景图片在中间 */
+    height: 100vh;
+    background-size: cover;
+    transition: all 0.5s;
+}
+
+#check:checked~section {
+    margin-left: 250px;
+}
+
+
+

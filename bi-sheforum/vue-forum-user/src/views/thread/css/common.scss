@@ -1,0 +1,36 @@
+.guo-button {
+    width: fit-content;
+    min-width: 20px;
+    text-align: center;
+    height: 45px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1.5px solid #E0E1E4;
+    box-shadow: 0px 0px 20px -20px;
+    cursor: pointer;
+    background-color: white;
+    transition: all 0.2s ease-in-out 0ms;
+    user-select: none;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .guo-button:hover {
+    background-color: #F2F2F2;
+    box-shadow: 0px 0px 20px -18px;
+  }
+  
+  .guo-button:active {
+    transform: scale(0.95);
+  }
+
+.guo-tag{
+  cursor: pointer;
+  color: #3f5a93;
+  font-size: 12px;
+  width: 50px;
+  line-height: 23px;
+  height: 25px;
+  text-align: center;
+  border-radius: 20px;
+  border: 1px solid #9fadc9;
+}

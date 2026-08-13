@@ -1,0 +1,29 @@
+{
+  "name": "vue-forum-user",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.3.5",
+    "echarts": "^5.6.0",
+    "element-plus": "^2.3.4",
+    "gsap": "^3.12.7",
+    "pinia": "^2.0.32",
+    "swiper": "^9.2.3",
+    "vue": "^3.2.47",
+    "vue-router": "^4.1.6"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "less": "^4.2.2",
+    "less-loader": "^12.2.0",
+    "sass": "^1.86.0",
+    "unplugin-auto-import": "^0.15.3",
+    "unplugin-vue-components": "^0.24.1",
+    "vite": "^4.1.4"
+  }
+}

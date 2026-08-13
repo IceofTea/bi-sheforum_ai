@@ -1,0 +1,130 @@
+/* CDN 服务仅供平台体验和调试使用，平台不承诺服务的稳定性，企业客户需下载字体包自行发布使用并做好备份。 */
+@font-face {
+	font-family: "阿里妈妈数黑体 Bold";
+	font-weight: 700;
+	src: url("//at.alicdn.com/wf/webfont/5yu9WIW9w3FV/y5Ry3Oj3bynK.woff2") format("woff2"),
+		url("//at.alicdn.com/wf/webfont/5yu9WIW9w3FV/UeHmNfA2WUP9.woff") format("woff");
+	font-display: swap;
+}
+
+.container {
+	position: absolute;
+	width: 100%;
+	background-color: #d8e1ff;
+	height: 750px;
+}
+
+.top {
+	display: flex;
+	justify-content: space-between;
+}
+
+.toplogo {
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	font-size: 18px;
+	font-family: "阿里妈妈数黑体 Bold";
+	font-weight: 700
+}
+
+.topnav {
+	padding: 10px;
+}
+
+.topnav a {
+	padding-left: 10px;
+}
+
+.topnav a::after {
+	content: "";
+	display: inline-block;
+	vertical-align: middle;
+	margin-top: -2px;
+	margin-left: 12px;
+	width: 1px;
+	height: 12px;
+	background-color: #b7bcc7;
+	font-size: 0;
+}
+
+.topnav a:nth-last-child(1)::after {
+	display: none;
+}
+
+.toplogo img {
+	width: 40px;
+	margin-right: 10px;
+}
+
+.middle {
+	position: relative;
+	width: 100%;
+	/* height: 650px; */
+	top: 0;
+	margin: 0 auto;
+	background-repeat: no-repeat;
+	background-position: 50%;
+	-webkit-background-size: contain;
+	background-size: contain;
+}
+
+.middle .picture {
+	position: absolute;
+	left: 200px;
+	top: 100px;
+}
+
+.middle .picture img {
+	width: 500px;
+}
+.form-card {
+    width: 360px;
+    position: absolute;
+    top: 150px;
+    right: 200px;
+  }
+
+.vercode {
+	border: 1px solid #eeeeee;
+	height: 44px;
+	width: 120px;
+	border-radius: 6px;
+}
+
+.bottom {
+	position: fixed;
+	width: 100%;
+	margin: 0 auto;
+	bottom: 20px;
+}
+
+.bottomnav {
+	padding: 20px;
+	text-align: center;
+}
+
+.bottominfo {
+	padding: 5px;
+	text-align: center;
+}
+
+.bottomnav a {
+	padding-left: 10px;
+}
+
+.bottomnav a::after {
+	content: "";
+	display: inline-block;
+	vertical-align: middle;
+	margin-top: -2px;
+	margin-left: 12px;
+	width: 1px;
+	height: 12px;
+	background-color: #b7bcc7;
+	font-size: 0;
+}
+
+.bottomnav a:nth-last-child(1)::after {
+	display: none;
+}

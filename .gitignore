@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# ide
+.idea/
+.settings/
+*.iml
+
+# build outputs
+target/
+dist/
+*.log
+
+# nested git repo backups
+.git.bak/
+
+# os
+.DS_Store
+Thumbs.db
