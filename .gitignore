@@ -11,6 +11,18 @@ target/
 dist/
 *.log
 
+# H2 数据库文件（h2 profile 运行时生成）
+data/
+*.mv.db
+*.trace.db
+
+# 前端构建产物（由 CI / .devcontainer/setup.sh 注入到后端 static）
+bi-sheforum/forum/src/main/resources/static/*
+!bi-sheforum/forum/src/main/resources/static/.gitkeep
+!bi-sheforum/forum/src/main/resources/static/upload/
+bi-sheforum/forum/src/main/resources/static/upload/*
+!bi-sheforum/forum/src/main/resources/static/upload/.gitkeep
+
 # nested git repo backups
 .git.bak/
 

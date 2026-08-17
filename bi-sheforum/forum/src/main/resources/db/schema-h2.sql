@@ -2367,7 +2367,8 @@ INSERT INTO `writer` VALUES (50, '黄磊', '1995年3月', '男', '广东广州',
 -- ----------------------------
 
 -- 签到表（如果还没创建）
-CREATE TABLE IF NOT EXISTS user_sign (
+DROP TABLE IF EXISTS user_sign;
+CREATE TABLE user_sign (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_info_id INT NOT NULL,
   sign_date TIMESTAMP NOT NULL,
@@ -2375,7 +2376,8 @@ CREATE TABLE IF NOT EXISTS user_sign (
   continuous_days INT DEFAULT 1
 );
 -- 帖子点赞表
-CREATE TABLE IF NOT EXISTS thread_like (
+DROP TABLE IF EXISTS thread_like;
+CREATE TABLE thread_like (
   id INT AUTO_INCREMENT PRIMARY KEY,
   thread_info_id INT NOT NULL,
   user_info_id INT NOT NULL,
@@ -2383,7 +2385,8 @@ CREATE TABLE IF NOT EXISTS thread_like (
   CONSTRAINT uk_thread_user UNIQUE (thread_info_id, user_info_id)
 );
 -- 评论点赞表
-CREATE TABLE IF NOT EXISTS comment_like (
+DROP TABLE IF EXISTS comment_like;
+CREATE TABLE comment_like (
   id INT AUTO_INCREMENT PRIMARY KEY,
   comment_id INT NOT NULL,
   user_info_id INT NOT NULL,
@@ -2391,7 +2394,8 @@ CREATE TABLE IF NOT EXISTS comment_like (
   CONSTRAINT uk_comment_user UNIQUE (comment_id, user_info_id)
 );
 -- 用户关注表
-CREATE TABLE IF NOT EXISTS user_follow (
+DROP TABLE IF EXISTS user_follow;
+CREATE TABLE user_follow (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   follow_user_id INT NOT NULL,
@@ -2399,7 +2403,8 @@ CREATE TABLE IF NOT EXISTS user_follow (
   CONSTRAINT uk_user_follow UNIQUE (user_id, follow_user_id)
 );
 -- 用户消息通知表
-CREATE TABLE IF NOT EXISTS user_message (
+DROP TABLE IF EXISTS user_message;
+CREATE TABLE user_message (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   from_user_id INT,
@@ -2410,7 +2415,8 @@ CREATE TABLE IF NOT EXISTS user_message (
   create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS user_daily_exp (
+DROP TABLE IF EXISTS user_daily_exp;
+CREATE TABLE user_daily_exp (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_info_id INT NOT NULL,
   exp_date DATE NOT NULL,
@@ -2430,7 +2436,8 @@ ALTER TABLE user_info ADD COLUMN continuous_login_days INT DEFAULT 0  ;;
 
 
 -- 徽章类型定义表
-CREATE TABLE IF NOT EXISTS badge_type (
+DROP TABLE IF EXISTS badge_type;
+CREATE TABLE badge_type (
   id INT AUTO_INCREMENT PRIMARY KEY,
   code VARCHAR(50) NOT NULL UNIQUE ,
   name VARCHAR(50) NOT NULL ,
@@ -2445,7 +2452,8 @@ CREATE TABLE IF NOT EXISTS badge_type (
 );
 
 -- 用户徽章关联表
-CREATE TABLE IF NOT EXISTS user_badge (
+DROP TABLE IF EXISTS user_badge;
+CREATE TABLE user_badge (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_info_id INT NOT NULL,
   badge_type_id INT NOT NULL,

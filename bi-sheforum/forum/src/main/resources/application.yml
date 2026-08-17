@@ -1,35 +1,36 @@
 # 端口号
 server:
   port: 4477
-  
-#配置pagehelper的内容
-pagehelper:
-    helper-dialect: mysql
+
 # 应用名
 spring:
   application:
     name: forum
-
-# 数据库（默认 MySQL；使用 H2 免安装单 jar 运行请加 --spring.profiles.active=h2）
+  # 数据库（默认 MySQL；免安装单 jar 运行请加 --spring.profiles.active=h2）
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/forum
     username: root
     password: 3185
-# 文件上传目录（相对路径，可在启动时覆盖：--forum.upload-dir=D:/upload）
-forum:
-  upload-dir: ./upload
-
-# 文件上传的配置
+  # 文件上传的配置
   servlet:
     multipart:
       location: ${forum.upload-dir}
       max-file-size: 100MB
-        
-# mybatis的日志打印
+
+# 自定义配置：上传文件目录（相对路径，可 --forum.upload-dir=D:/upload 覆盖）
+forum:
+  upload-dir: ./upload
+
+# PageHelper 分页
+pagehelper:
+  helper-dialect: mysql
+
+# MyBatis 日志
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+
 logging:
   level:
     root: warn

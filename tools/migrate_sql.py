@@ -164,6 +164,12 @@ def convert(source_paths, out_path):
             row = transform_ddl(protected, in_create)
             row = restore(row, parts)
             if re.match(r"^\s*CREATE\s+TABLE\b", s, re.I):
+                # 迁移表/徽章表用 IF NOT EXISTS，二次启动不会重建导致重复插入；
+                # 统一改为 DROP + CREATE，保证每次启动幂等重建。
+                if re.match(r"^\s*CREATE\s+TABLE\s+IF\s+NOT\s+EXISTS\b", s, re.I):
+                    m = re.match(r"^\s*CREATE\s+TABLE\s+IF\s+NOT\s+EXISTS\s+([\w`]+)", s, re.I)
+                    out.append("DROP TABLE IF EXISTS %s;" % restore(m.group(1), parts))
+                    row = re.sub(r"\s*IF\s+NOT\s+EXISTS", "", row, flags=re.I, count=1)
                 in_create = True
             elif in_create and s.startswith(")"):
                 # remove the trailing comma left behind by a dropped index row

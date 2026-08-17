@@ -1,4 +1,4 @@
-﻿package com.henry.forum.admin.mapper;
+package com.henry.forum.admin.mapper;
 
 import java.util.List;
 
