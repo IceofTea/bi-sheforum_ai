@@ -1,0 +1,17 @@
+# Render 免费部署配置（可选，非必需）
+# 在 Render 中新建 Blueprint 关联本仓库即可一键部署：
+#   1. 仓库 → New Blueprint → Connect repository
+#   2. Render 将根据本文件自动创建 Web Service 并产出公网 https:// 地址
+# 数据库使用 H2 文件模式，数据落盘在服务实例磁盘（免费实例数据随重建清空，适合演示）。
+services:
+  - type: web
+    name: bi-sheforum-ai
+    runtime: docker
+    plan: free
+    dockerContext: .
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: JAVA_OPTS
+        value: "--server.port=4477"
+    healthCheckPath: /api/threads/all
+    autoDeploy: true

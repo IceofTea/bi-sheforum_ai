@@ -16,7 +16,8 @@ public class WebConfig implements WebMvcConfigurer{
     //静态资源的路径映射
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 上传目录：优先读本地文件系统（用户新上传），缺失时回退到 jar 内置示例图片
         registry.addResourceHandler("/upload/**")
-                .addResourceLocations("file:" + path);
+                .addResourceLocations("file:" + path, "classpath:/static/upload/");
     }
 }

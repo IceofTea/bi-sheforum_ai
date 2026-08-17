@@ -1,4 +1,4 @@
-package com.henry.forum.admin.mapper;
+﻿package com.henry.forum.admin.mapper;
 
 import java.util.List;
 
@@ -18,6 +18,6 @@ public interface UserSignMapper {
     @Select("select * from user_sign where user_info_id = #{userId} order by sign_date desc")
     List<UserSign> getAllByUserId(Integer userId);
 
-    @Select("select * from user_sign where user_info_id = #{userId} and DATE(sign_date) = CURDATE()")
+    @Select("select * from user_sign where user_info_id = #{userId} and DATE(sign_date) = CURRENT_DATE")
     UserSign getTodaySign(Integer userId);
 }

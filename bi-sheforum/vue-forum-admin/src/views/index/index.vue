@@ -566,7 +566,7 @@ async function getnum() {
 }
 
 function gotoUserWeb() {
-  location.assign(`//localhost:5174/index`);
+  location.assign('/');
 }
 let router = useRouter();
 function gotolist(params) {

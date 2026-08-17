@@ -10,16 +10,20 @@ spring:
   application:
     name: forum
 
-# 数据库
+# 数据库（默认 MySQL；使用 H2 免安装单 jar 运行请加 --spring.profiles.active=h2）
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/forum
     username: root
     password: 3185
+# 文件上传目录（相对路径，可在启动时覆盖：--forum.upload-dir=D:/upload）
+forum:
+  upload-dir: ./upload
+
 # 文件上传的配置
   servlet:
     multipart:
-      location: C:\upload\
+      location: ${forum.upload-dir}
       max-file-size: 100MB
         
 # mybatis的日志打印

@@ -1,0 +1,25 @@
+# ====================================================
+# H2 内嵌数据库配置 —— 免 MySQL 单 jar 运行 / 云端部署
+# 使用：java -jar forum-admin.jar --spring.profiles.active=h2
+# 首次启动自动执行 resources/db/schema-h2.sql 完成建表与示例数据导入
+# （该脚本由 tools/migrate_sql.py 从 forum.sql 自动转换生成）
+# ====================================================
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:./data/forum;MODE=MySQL;DATABASE_TO_LOWER=TRUE;NON_KEYWORDS=TYPE,VALUE,TEXT,KEY,LIMIT,USER,YEAR
+    username: sa
+    password: ""
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema-h2.sql
+      encoding: UTF-8
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+# PageHelper 分页方言
+pagehelper:
+  helper-dialect: h2

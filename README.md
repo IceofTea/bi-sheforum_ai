@@ -3,11 +3,30 @@
 校园论坛业务系统与基于 RAG 的多智能体问答引擎的集成项目。论坛业务由
 Spring Boot + Vue 3 实现，AI 引擎为独立 Python 服务，两者通过 REST API 解耦通信。
 
+[![CI Build](https://img.shields.io/github/actions/workflow/status/IceofTea/bi-sheforum_ai/build.yml?label=Build&logo=github)](https://github.com/IceofTea/bi-sheforum_ai/actions/workflows/build.yml)
+[![Nightly Release](https://img.shields.io/github/v/release/IceofTea/bi-sheforum_ai?label=Release)](https://github.com/IceofTea/bi-sheforum_ai/releases/tag/nightly)
+[![Open in Codespaces](https://img.shields.io/badge/Open_in-Codespaces-181717?logo=github)](https://codespaces.new/IceofTea/bi-sheforum_ai)
+[![License](https://img.shields.io/badge/license-all_rights_reserved-lightgrey)](LICENSE)
+
+## 项目地址
+
+| 入口 | 地址 |
+|------|------|
+| 仓库 | <https://github.com/IceofTea/bi-sheforum_ai> |
+| 在线体验（Codespaces 一键启动） | <https://codespaces.new/IceofTea/bi-sheforum_ai> |
+| 可执行 jar（nightly Release） | <https://github.com/IceofTea/bi-sheforum_ai/releases/tag/nightly> |
+| CI 构建状态 | <https://github.com/IceofTea/bi-sheforum_ai/actions/workflows/build.yml> |
+
+> **在线体验说明**：点击「Open in Codespaces」后，GitHub 会自动创建云端开发环境并
+> 执行 `.devcontainer/setup.sh`（构建前端、转换 H2 schema、打包后端单 jar），随后启动
+> 应用并把 **4477 端口转发为公网 URL**（形如 `https://<codespace>-4477.app.github.dev`）。
+> 该 URL 由 GitHub 生成、无需注册任何第三方平台，网页内容与本地部署完全一致。
+
 ## 1. 系统组成
 
 | 子系统 | 路径 | 说明 |
 |--------|------|------|
-| 论坛业务系统 | `bi-sheforum/` | Spring Boot 3 后端 + 用户端 / 管理端两套 Vue 前端 + MySQL 数据库脚本 |
+| 论坛业务系统 | `bi-sheforum/` | Spring Boot 3 后端 + 用户端 / 管理端两套 Vue 前端 + 数据库初始化脚本 |
 | AI 智能引擎 | `forum_bot/` | 基于检索增强生成（RAG）的多智能体协作服务，自动回复、内容审核、数据分析 |
 
 通信方式：AI 引擎通过 HTTP 调用论坛后端 REST API 获取帖子、回帖与统计数据；
@@ -19,10 +38,11 @@ Spring Boot + Vue 3 实现，AI 引擎为独立 Python 服务，两者通过 RES
 
 | 层 | 技术 |
 |----|------|
-| 后端 | Spring Boot 3.1.0 · Java 19 · MyBatis 2.3.0 · java-jwt 4.2.1 · PageHelper 1.4.6 |
+| 后端 | Spring Boot 3.1.0 · Java 17 · MyBatis 2.3.0 · java-jwt 4.2.1 · PageHelper 1.4.6 |
 | 用户端前端 | Vue 3.2 · Vite 4.1 · Element Plus 2.3 · Pinia 2.0 · Vue Router 4 · ECharts 5 · GSAP · Swiper |
 | 管理端前端 | Vue 3.2 · Vite 4.1 · Element Plus 2.3 · Pinia 2.0 · ECharts 5 |
-| 数据层 | MySQL（库名 `forum`，utf8mb4）· 本地文件存储（上传资源） |
+| 数据层 | MySQL（默认 profile，库名 `forum`，utf8mb4）· **H2（`h2` profile，内嵌免安装）** |
+| 存储 | 本地文件系统（上传资源），jar 内置示例图片兜底 |
 | 鉴权 | JWT（无状态认证） |
 
 ### 2.2 AI 智能引擎
@@ -49,7 +69,7 @@ Spring Boot + Vue 3 实现，AI 引擎为独立 Python 服务，两者通过 RES
 │  ├─────────────────────────┤  │  │   ├─ RetrieverAgent 双通道检索 + RRF    │  │
 │  │ Spring Boot REST :4477  │◀─┼──┼─▶│   ├─ CriticAgent   自查-修复闭环     │  │
 │  │  ├─ MySQL :3306/forum   │  │  │   ├─ PersonaProvider 用户画像          │  │
-│  │  └─ upload/ 文件存储    │  │  │   └─ Memory         会话记忆            │  │
+│  │  └─ H2 :./data/forum    │  │  │   └─ Memory         会话记忆            │  │
 │  └─────────────────────────┘  │  │                                        │  │
 │                               │  │  辅助 Agent：Emotion / Clarify /       │  │
 │                               │  │  Moderator / Analytics / HotTopic      │  │
@@ -93,15 +113,19 @@ bi-sheforum_ai/
 │   │       ├── java/com/henry/forum/admin/
 │   │       │   ├── controller/     #     REST 控制器（20 个资源）
 │   │       │   ├── service/        #     业务逻辑层
-│   │       │   ├── mapper/         #     MyBatis 数据访问
+│   │       │   ├── mapper/         #     MyBatis 数据访问（注解 SQL）
 │   │       │   ├── entity/         #     实体模型
-│   │       │   ├── config/         #     配置 / 拦截器
+│   │       │   ├── config/         #     配置 / 拦截器 / SPA 回退
 │   │       │   └── util/           #     JWT 等工具
-│   │       └── resources/          #     application.yml + 增量迁移 SQL
-│   ├── vue-forum-user/             #   用户端前端（Vite :5173）
-│   ├── vue-forum-admin/            #   管理端前端（Vite :5173）
-│   ├── upload/                     #   上传资源目录
-│   └── forum.sql                   #   数据库初始化脚本（全量建表 + 示例数据）
+│   │       └── resources/
+│   │           ├── application.yml #     默认配置（MySQL）
+│   │           ├── application-h2.yml #  H2 内嵌数据库 profile
+│   │           ├── db/schema-h2.sql   #  H2 兼容建表 + 示例数据（脚本生成）
+│   │           └── static/            #  前端构建产物（CI/脚本注入）
+│   ├── vue-forum-user/             #   用户端前端（Vite）
+│   ├── vue-forum-admin/            #   管理端前端（Vite，生产 base=/admin/）
+│   ├── upload/                     #   上传资源目录（含种子示例图片）
+│   └── forum.sql                   #   MySQL 数据库初始化脚本（数据源）
 │
 ├── forum_bot/                      # AI 智能引擎
 │   ├── agent.py                    #   CampusAgent 多智能体编排（Planner/Retriever/Critic/Persona/Memory）
@@ -122,7 +146,11 @@ bi-sheforum_ai/
 │   ├── run_bot.bat · start_all.bat #   Windows 启动脚本
 │   └── vector_store/               #   ChromaDB 持久化数据
 │
-├── skills/                         # AI 协作开发技能库（非运行时依赖）
+├── .github/workflows/build.yml     # CI：构建 + 冒烟测试 + nightly Release
+├── .devcontainer/                  # Codespaces 一键在线运行配置
+├── tools/migrate_sql.py            # MySQL dump → H2 schema 转换脚本
+├── Dockerfile                      # 多阶段构建（单 jar 全栈镜像）
+├── render.yaml                     # Render 免费部署配置（可选）
 └── README.md
 ```
 
@@ -130,23 +158,50 @@ bi-sheforum_ai/
 
 | 组件 | 版本 | 用途 |
 |------|------|------|
-| JDK | 19+ | 后端编译运行 |
+| JDK | 17+ | 后端编译运行 |
 | Maven | 3.6+ | 后端依赖 |
 | Node.js | 16+ | 前端构建 |
-| MySQL | 5.7+ | 业务数据 |
+| MySQL | 5.7+ | 默认 profile 业务数据（改用 `h2` profile 则无需） |
 | Python | 3.10+ | AI 引擎 |
 | Ollama | 最新 | 本地 LLM / Embedding（使用云端 API 时可省略） |
 
 ## 6. 部署与启动
 
-### 6.1 论坛业务系统
+### 6.1 方式一：单 jar 全栈运行（推荐，无需 MySQL）
+
+CI 会把两个前端构建产物与示例图片打入后端 jar，并以 H2 内嵌数据库运行：
+
+```bash
+# 从 nightly Release 下载 jar，或本地构建：
+#   .devcontainer/setup.sh（或依次执行：前端 build → tools/migrate_sql.py → mvn package）
+
+java -jar forum.admin-0.0.1-SNAPSHOT.jar --spring.profiles.active=h2
+```
+
+启动后：
+
+| 入口 | 地址 |
+|------|------|
+| 用户端 | <http://localhost:4477/> |
+| 管理端 | <http://localhost:4477/admin/> |
+| H2 控制台 | <http://localhost:4477/h2-console>（JDBC URL 见 `application-h2.yml`） |
+
+H2 数据库文件落盘于 `./data/forum`，首次启动自动执行 `db/schema-h2.sql`
+完成建表与示例数据导入（19 张表、217 条帖子、31 个用户、23 种徽章），
+与 MySQL 初始化结果一致。数据变更可随时重新生成：
+
+```bash
+python tools/migrate_sql.py     # 由 forum.sql 重新生成 H2 兼容 schema
+```
+
+### 6.2 方式二：本地开发（MySQL + Vite dev server）
 
 ```bash
 # 初始化数据库（库名 forum）
 mysql -uroot -p -e "CREATE DATABASE forum DEFAULT CHARSET utf8mb4;"
 mysql -uroot -p forum < bi-sheforum/forum.sql
 
-# 启动后端（默认 :4477）
+# 启动后端（默认 :4477，MySQL profile）
 cd bi-sheforum/forum
 mvn spring-boot:run
 
@@ -161,7 +216,25 @@ npm install && npm run dev
 
 数据库连接等参数在 `bi-sheforum/forum/src/main/resources/application.yml` 中配置。
 
-### 6.2 AI 智能引擎
+### 6.3 方式三：GitHub Codespaces 在线体验
+
+仓库已配置 `.devcontainer/`，打开即自动构建并启动：
+
+1. 访问 <https://codespaces.new/IceofTea/bi-sheforum_ai>，点击 **Create codespace**；
+2. 等待容器初始化（`postCreateCommand` 构建前端 + 打包 jar，约 2-3 分钟）；
+3. 自动启动后 **4477 端口被 GitHub 转发为公网 URL**，浏览器直接打开即为在线站点；
+4. 之后每次重新打开 codespace，`postStartCommand` 会自动拉起应用。
+
+### 6.4 方式四：Docker / Render（可选）
+
+```bash
+docker build -t bi-sheforum-ai .
+docker run -p 4477:4477 -v forum-data:/app/data bi-sheforum-ai
+```
+
+或直接在 Render 创建 Blueprint 关联本仓库（见 `render.yaml`），一键产出公网 HTTPS 地址。
+
+### 6.5 AI 智能引擎
 
 ```bash
 # 1. 准备本地模型（使用云端 API 可跳过）
@@ -181,7 +254,7 @@ python bot.py index
 python bot.py api
 ```
 
-### 6.3 运行模式
+### 6.6 运行模式
 
 | 模式 | 命令 | 行为 |
 |------|------|------|
@@ -191,7 +264,23 @@ python bot.py api
 
 ## 7. 配置项
 
-AI 引擎全部参数集中于 `forum_bot/config.py`，支持环境变量覆盖（同名大写）。
+### 7.1 后端（Spring Boot）
+
+| 属性 | 默认值 | 说明 |
+|------|--------|------|
+| `spring.profiles.active` | `mysql`（默认） | 指定 `h2` 时启用内嵌数据库免安装运行 |
+| `forum.upload-dir` | `./upload` | 上传文件存储目录（可 `--forum.upload-dir=` 覆盖） |
+| `server.port` | `4477` | 服务端口 |
+
+`application-h2.yml` 关键连接参数：
+
+```
+jdbc:h2:file:./data/forum;MODE=MySQL;DATABASE_TO_LOWER=TRUE;NON_KEYWORDS=TYPE,VALUE,TEXT,KEY,LIMIT,USER,YEAR
+```
+
+### 7.2 AI 引擎
+
+全部参数集中于 `forum_bot/config.py`，支持环境变量覆盖（同名大写）。
 
 | 参数 | 默认值 | 说明 |
 |------|--------|------|
@@ -249,9 +338,68 @@ AI 引擎全部参数集中于 `forum_bot/config.py`，支持环境变量覆盖�
 `scene_config.py`。迁移到其他场景（电商客服、政务问答等）只需替换该文件的数据源，
 引擎代码无需改动。
 
-## 10. 测试
+## 10. 文件索引
 
-仓库内提供以下验证脚本（`forum_bot/`）：
+### 10.1 后端（`bi-sheforum/forum/src/main/java/com/henry/forum/admin/`）
+
+| 文件 | 职责 |
+|------|------|
+| `controller/BadgeController.java` | 徽章查询 / 发放 |
+| `controller/BotController.java` | 机器人相关 API |
+| `controller/CommentLikeController.java` | 评论点赞 |
+| `controller/RootController.java` | 论坛板块（分类）管理 |
+| `controller/ThreadInfoController.java` | 帖子 CRUD / 分页 / 热门 |
+| `controller/ThreadLikeController.java` | 帖子点赞 |
+| `controller/ThreadSortController.java` | 帖子排序（置顶等） |
+| `controller/UploadController.java` | 文件上传 / 读取 |
+| `controller/UserCollectController.java` | 帖子收藏 |
+| `controller/UserCommentController.java` | 评论 CRUD |
+| `controller/UserCommentReplyController.java` | 评论回复 |
+| `controller/UserFollowController.java` | 用户关注 |
+| `controller/UserInfoController.java` | 用户注册 / 登录 / 资料 |
+| `controller/UserMessageController.java` | 站内消息通知 |
+| `controller/UserReadController.java` | 浏览记录 |
+| `controller/UserSignController.java` | 每日签到 |
+| `controller/UserSortController.java` | 板块访问统计 / 订阅 |
+| `controller/UserUploadController.java` | 用户头像等上传 |
+| `controller/VercodeController.java` | 验证码签发 / 图片 |
+| `controller/WriterController.java` | 作者（发帖人）资料 |
+| `config/CorsConfig.java` | 跨域配置 |
+| `config/WebConfig.java` | 上传资源映射（文件系统 + classpath 兜底） |
+| `config/SpaForwardController.java` | 前端 history 路由回退 |
+| `util/TokenUtil.java` | JWT 生成 / 校验 |
+| `util/UploadUtil.java` | 上传落盘 |
+| `util/VercodeUtil.java` | 验证码图片生成 |
+| `mapper/*Mapper.java`（21 个） | MyBatis 注解 SQL 数据访问 |
+| `entity/*` | 实体模型 |
+| `ForumApplication.java` | 启动类 |
+
+### 10.2 前端
+
+| 文件 | 职责 |
+|------|------|
+| `vue-forum-user/src/` | 用户端（首页 / 帖子 / 分类 / 登录注册 / 个人中心） |
+| `vue-forum-admin/src/` | 管理端（数据看板 / 用户管理 / 内容管理） |
+| `vue-forum-user/src/plugins/axios.config.js` | axios 实例（baseURL 由 `VITE_SERVER` 注入） |
+| `vue-forum-user/src/plugins/config.js` | 资源 URL 常量（生产为相对路径） |
+| `vue-forum-user/.env.production` | 生产环境变量（同源模式） |
+| `vue-forum-admin/vite.config.js` | 生产 `base=/admin/` 配置 |
+
+### 10.3 部署 / CI
+
+| 文件 | 职责 |
+|------|------|
+| `.github/workflows/build.yml` | CI：构建前端 → 生成 H2 schema → 打包 jar → 冒烟测试 → Release |
+| `.devcontainer/devcontainer.json` | Codespaces 容器定义（JDK17 + Node18 + Python） |
+| `.devcontainer/setup.sh` | 容器初始化：构建 + 打包 |
+| `.devcontainer/start.sh` | 容器启动：拉起应用 |
+| `tools/migrate_sql.py` | `forum.sql` → H2 兼容 `schema-h2.sql` 转换器 |
+| `Dockerfile` | 多阶段镜像（前端 → schema → jar → JRE） |
+| `render.yaml` | Render 免费部署配置 |
+
+## 11. 测试
+
+### 11.1 仓库内验证脚本（`forum_bot/`）
 
 | 脚本 | 验证目标 |
 |------|----------|
@@ -262,14 +410,21 @@ AI 引擎全部参数集中于 `forum_bot/config.py`，支持环境变量覆盖�
 | `eval_benchmark.py` | 检索质量基准 |
 | `check_api.py` / `check_comments.py` / `check_reply.py` | 论坛接口连通性与回帖校验 |
 
-## 11. 已知限制
+### 11.2 CI 冒烟测试（GitHub Actions）
+
+每次 `main` 推送，构建出的单 jar 以 `h2` profile 启动后自动执行：
+API 分页查询、首页、SPA 深层路由、管理端、种子图片、验证码 六项 HTTP 检查。
+
+## 12. 已知限制
 
 - 意图判断与情绪预判默认基于规则，复杂表述的准确率依赖 LLM 兜底配置（`EMOTION_USE_LLM` 等）。
-- 双前端默认端口相同（5173），并存时需手动调整。
+- 双前端默认端口相同（5173），本地并存时需手动调整。
+- `h2` profile 每次启动重建种子数据（演示环境），持久化数据请使用 MySQL profile 或配置文件库参数。
 - 向量库为本地持久化，多实例部署需自行替换为共享存储。
-- `config.py` 与 `application.yml` 中存在硬编码示例密钥 / 密码，生产环境须改用环境变量。
+- `forum_bot/config.py` 中存在硬编码示例 API Key，生产环境须通过环境变量覆盖。
+- AI 引擎依赖 Ollama 本地模型，GitHub 免费运行环境不提供长期在线推理，在线体验仅含论坛业务系统。
 
-## 12. Roadmap
+## 13. Roadmap
 
 - Rerank 重排提升召回精度
 - 前端对话式问答入口（毫秒级响应）
@@ -277,7 +432,7 @@ AI 引擎全部参数集中于 `forum_bot/config.py`，支持环境变量覆盖�
 - 相似问题关联推荐
 - 多向量库适配（Milvus / Qdrant）与多租户隔离
 
-## 13. 许可
+## 14. 许可
 
 本项目为校园实践作品，未指定开源许可证，保留所有权利。
 部署前请自行配置本地环境与模型资源；任何密钥请通过环境变量管理，勿提交至公共仓库。

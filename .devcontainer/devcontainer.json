@@ -1,0 +1,27 @@
+{
+  "name": "BI-SheForum AI",
+  "image": "mcr.microsoft.com/devcontainers/java:17",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18"
+    },
+    "ghcr.io/devcontainers/features/python:1": {}
+  },
+  "forwardPorts": [4477],
+  "portsAttributes": {
+    "4477": {
+      "label": "Forum Web (用户端/管理端/API)",
+      "onAutoForward": "openBrowser"
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "postStartCommand": "bash .devcontainer/start.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "Vue.volar"
+      ]
+    }
+  }
+}

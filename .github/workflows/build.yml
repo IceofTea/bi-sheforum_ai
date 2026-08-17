@@ -1,0 +1,118 @@
+name: Build & Release
+
+# 每次推送到 main 时：
+#   1. 构建两个 Vue 前端（生产模式，前后端同源）
+#   2. 由 tools/migrate_sql.py 将 forum.sql 转换为 H2 兼容 schema
+#   3. 将前端产物与示例图片打包进 Spring Boot 单 jar（内嵌 H2 数据库）
+#   4. 以 h2 profile 启动 jar 做冒烟测试（API + 页面）
+#   5. 产出可下载 artifact 与 nightly Release
+#
+# 生成的单 jar 无需 MySQL，运行：
+#   java -jar forum.admin-0.0.1-SNAPSHOT.jar --spring.profiles.active=h2
+# 或使用仓库内的 GitHub Codespaces 一键启动在线体验。
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Node 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Build user frontend
+        working-directory: bi-sheforum/vue-forum-user
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+          rm -rf ../../forum/src/main/resources/static/*
+          mkdir -p ../../forum/src/main/resources/static
+          cp -r dist/* ../../forum/src/main/resources/static/
+
+      - name: Build admin frontend
+        working-directory: bi-sheforum/vue-forum-admin
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+          mkdir -p ../../forum/src/main/resources/static/admin
+          cp -r dist/* ../../forum/src/main/resources/static/admin/
+
+      - name: Bundle seed uploads
+        run: |
+          mkdir -p bi-sheforum/forum/src/main/resources/static/upload
+          cp bi-sheforum/upload/*.jpg bi-sheforum/forum/src/main/resources/static/upload/ 2>/dev/null || true
+          cp bi-sheforum/upload/*.png bi-sheforum/forum/src/main/resources/static/upload/ 2>/dev/null || true
+
+      - name: Generate H2 schema from MySQL dump
+        run: python3 tools/migrate_sql.py
+
+      - name: Build backend jar
+        working-directory: bi-sheforum/forum
+        run: mvn -B -DskipTests package
+
+      - name: Smoke test (embedded H2)
+        run: |
+          java -jar bi-sheforum/forum/target/*.jar --spring.profiles.active=h2 --server.port=4477 &
+          APP_PID=$!
+          ok=0
+          for i in $(seq 1 90); do
+            if curl -sf http://localhost:4477/api/threads/all > /dev/null 2>&1; then ok=1; break; fi
+            sleep 2
+          done
+          if [ "$ok" != "1" ]; then echo "SMOKE FAILED: app did not start"; kill $APP_PID 2>/dev/null || true; exit 1; fi
+          curl -fsS http://localhost:4477/api/threads/all -o /dev/null && echo "API /api/threads/all OK"
+          curl -fsS "http://localhost:4477/api/threads/all?pageNum=1&pageSize=3" -o /dev/null && echo "PAGINATION OK"
+          curl -fsS http://localhost:4477/ -o /dev/null && echo "USER PAGE OK"
+          curl -fsS http://localhost:4477/login -o /dev/null && echo "SPA ROUTE /login OK"
+          curl -fsS http://localhost:4477/admin/ -o /dev/null && echo "ADMIN PAGE OK"
+          curl -fsS http://localhost:4477/upload/campus_food.jpg -o /dev/null && echo "SEED IMAGE OK"
+          curl -fsS http://localhost:4477/vercode -o /dev/null && echo "VERCODE OK"
+          kill $APP_PID 2>/dev/null || true
+
+      - name: Upload jar artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: forum-admin-jar
+          path: bi-sheforum/forum/target/*.jar
+
+      - name: Delete previous nightly release
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release delete nightly --yes --cleanup-tag 2>/dev/null || true
+
+      - name: Create / update nightly release
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: nightly
+          name: Nightly Build #${{ github.run_number }}
+          body: |
+            单 jar 全栈版（Spring Boot + 内嵌 H2 + 两个 Vue 前端静态资源）
+
+            **运行方式**
+            ```bash
+            java -jar forum.admin-0.0.1-SNAPSHOT.jar --spring.profiles.active=h2
+            ```
+            访问 http://localhost:4477（用户端）与 http://localhost:4477/admin（管理端），无需 MySQL。
+
+            **在线体验**：仓库首页 → Code → Codespaces，自动构建并启动，转发 4477 端口即可。
+          files: bi-sheforum/forum/target/*.jar
+          prerelease: true
