@@ -31,11 +31,16 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+          cache: maven
 
       - name: Setup Node 18
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+          cache: npm
+          cache-dependency-path: |
+            bi-sheforum/vue-forum-user/package-lock.json
+            bi-sheforum/vue-forum-admin/package-lock.json
 
       - name: Build user frontend
         working-directory: bi-sheforum/vue-forum-user
